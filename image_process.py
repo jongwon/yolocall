@@ -67,7 +67,9 @@ class TrainArg():
         self.exist_ok = True
         self.quad = False
         self.linear_lr = False
-        self.freeze = 0
+        self.cos_lr = False
+        self.freeze = [0]
+        self.optimizer = 'Adam'
         self.wandb= 'offline'
         self.upload_dataset= False
         self.bbox_interval= -1
@@ -138,7 +140,7 @@ def train_models(opt: TrainArg, device):
     main(opt)
 
     print('try opt.evolve if 지나감 1')
-    run(include=('torchscript', 'hello'), device=device,  weights=opt.save_dir+"/weights/best.pt")
+    run(include=('torchscript', 'onnx'), device=device,  weights=opt.save_dir+"/weights/best.pt")
 
     try:
         dist.destroy_process_group()
